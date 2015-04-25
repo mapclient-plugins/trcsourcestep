@@ -29,10 +29,14 @@ class ConfigureDialog(QtGui.QDialog):
         # We will use this method to decide whether the identifier is unique.
         self.identifierOccursCount = None
 
+        self._previousLocation = ''
+
         self._makeConnections()
 
     def _makeConnections(self):
-        self._ui.lineEdit0.textChanged.connect(self.validate)
+        self._ui.idLineEdit.textChanged.connect(self.validate)
+        self._ui.locLineEdit.textChanged.connect(self.validate)
+        self._ui.locButton.clicked.connect(self._locClicked)
 
     def accept(self):
         '''
@@ -56,18 +60,21 @@ class ConfigureDialog(QtGui.QDialog):
         '''
         # Determine if the current identifier is unique throughout the workflow
         # The identifierOccursCount method is part of the interface to the workflow framework.
-        value = self.identifierOccursCount(self._ui.lineEdit0.text())
-        valid_identifier = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.lineEdit0.text())
+        value = self.identifierOccursCount(self._ui.idLineEdit.text())
+        valid_identifier = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.idLineEdit.text())
         if valid_identifier:
-            self._ui.lineEdit0.setStyleSheet(DEFAULT_STYLE_SHEET)
+            self._ui.idLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET)
         else:
-            self._ui.lineEdit0.setStyleSheet(INVALID_STYLE_SHEET)
+            self._ui.idLineEdit.setStyleSheet(INVALID_STYLE_SHEET)
 
-        valid_location = os.path.isfile(self._ui.lineEdit1.text())
+        # enable configs to be saved as long as id is valid
+        # self._ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(valid_identifier)
+
+        valid_location = os.path.isfile(self._ui.locLineEdit.text())
         if valid_location:
-            self._ui.lineEdit1.setStyleSheet(DEFAULT_STYLE_SHEET)
+            self._ui.locLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET)
         else:
-            self._ui.lineEdit1.setStyleSheet(INVALID_STYLE_SHEET)
+            self._ui.locLineEdit.setStyleSheet(INVALID_STYLE_SHEET)
 
         return valid_identifier and valid_location
 
@@ -77,10 +84,11 @@ class ConfigureDialog(QtGui.QDialog):
         set the _previousIdentifier value so that we can check uniqueness of the
         identifier over the whole of the workflow.
         '''
-        self._previousIdentifier = self._ui.lineEdit0.text()
+        self._previousIdentifier = self._ui.idLineEdit.text()
+        self._previousLocation = self._ui.locLineEdit.text()
         config = {}
-        config['identifier'] = self._ui.lineEdit0.text()
-        config['Location'] = self._ui.lineEdit1.text()
+        config['identifier'] = self._ui.idLineEdit.text()
+        config['Location'] = self._ui.locLineEdit.text()
         return config
 
     def setConfig(self, config):
@@ -90,6 +98,12 @@ class ConfigureDialog(QtGui.QDialog):
         identifier over the whole of the workflow.
         '''
         self._previousIdentifier = config['identifier']
-        self._ui.lineEdit0.setText(config['identifier'])
-        self._ui.lineEdit1.setText(config['Location'])
+        self._previousLocation = config['Location']
+        self._ui.idLineEdit.setText(config['identifier'])
+        self._ui.locLineEdit.setText(config['Location'])
 
+    def _locClicked(self):
+        location = QtGui.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
+        if location[0]:
+            self._previousLocation = location[0]
+            self._ui.locLineEdit.setText(location[0])
