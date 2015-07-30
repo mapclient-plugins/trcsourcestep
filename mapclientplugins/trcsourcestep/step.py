@@ -20,7 +20,7 @@ class TRCSourceStep(WorkflowStepMountPoint):
     def __init__(self, location):
         super(TRCSourceStep, self).__init__('TRC Source', location)
         self._configured = False  # A step cannot be executed until it has been configured.
-        self._category = 'General'
+        self._category = 'Source'
         # Add any other initialisation code here:
         self._icon = QtGui.QImage(':/trcsourcestep/images/trcsourceicon.png')
         # Ports:
