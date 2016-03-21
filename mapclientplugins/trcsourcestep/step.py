@@ -2,6 +2,7 @@
 '''
 MAP Client Plugin Step
 '''
+import os.path
 import json
 
 from PySide import QtGui
@@ -31,7 +32,7 @@ class TRCSourceStep(WorkflowStepMountPoint):
         self._config['identifier'] = ''
         self._config['Location'] = ''
 
-        self._data = TRCData()
+        self._data = None#TRCData()
 
 
     def execute(self):
@@ -41,7 +42,9 @@ class TRCSourceStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
-        self._data.load(self._config['Location'])
+        print('load: ' + os.path.join(self._location, self._config['Location']))
+        self._data = TRCData()
+        self._data.load(os.path.join(self._location, self._config['Location']))
         self._doneExecution()
 
     def getPortData(self, index):
@@ -62,6 +65,7 @@ class TRCSourceStep(WorkflowStepMountPoint):
             self._configured = True
         '''
         dlg = ConfigureDialog(QtGui.QApplication.activeWindow().currentWidget())
+        dlg.setWorkflowLocation(self._location)
         dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
@@ -106,8 +110,7 @@ class TRCSourceStep(WorkflowStepMountPoint):
         self._config.update(json.loads(string))
 
         d = ConfigureDialog()
+        d.setWorkflowLocation(self._location)
         d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()
-
-
