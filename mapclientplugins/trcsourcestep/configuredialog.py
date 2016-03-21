@@ -7,6 +7,7 @@ import os
 INVALID_STYLE_SHEET = 'background-color: rgba(239, 0, 0, 50)'
 DEFAULT_STYLE_SHEET = ''
 
+
 class ConfigureDialog(QtGui.QDialog):
     '''
     Configure dialog to present the user with the options to configure this step.
@@ -30,6 +31,8 @@ class ConfigureDialog(QtGui.QDialog):
         # Set a place holder for a callable that will get set from the step.
         # We will use this method to decide whether the identifier is unique.
         self.identifierOccursCount = None
+
+        self._location = None
 
         self._previousLocation = ''
 
@@ -100,6 +103,9 @@ class ConfigureDialog(QtGui.QDialog):
         self._previousLocation = config['Location']
         self._ui.idLineEdit.setText(config['identifier'])
         self._ui.locLineEdit.setText(config['Location'])
+
+    def setWorkflowLocation(self, location):
+        self._location = location
 
     def _locClicked(self):
         location, _ = QtGui.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)

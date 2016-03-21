@@ -4,6 +4,7 @@ MAP Client Plugin Step
 '''
 import os.path
 import json
+import os.path
 
 from PySide import QtGui
 
@@ -34,7 +35,6 @@ class TRCSourceStep(WorkflowStepMountPoint):
 
         self._data = None#TRCData()
 
-
     def execute(self):
         '''
         Add your code here that will kick off the execution of the step.
@@ -42,7 +42,6 @@ class TRCSourceStep(WorkflowStepMountPoint):
         may be connected up to a button in a widget for example.
         '''
         # Put your execute step code here before calling the '_doneExecution' method.
-        print('load: ' + os.path.join(self._location, self._config['Location']))
         self._data = TRCData()
         self._data.load(os.path.join(self._location, self._config['Location']))
         self._doneExecution()
