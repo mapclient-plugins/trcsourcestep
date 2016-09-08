@@ -24,14 +24,14 @@ key/value pairs are:
     - 'Labels' : List of marker names
     - frame [int] : a list of the time and marker coordinates of that frame
     
+Configuration
+-------------
+- **identifier** : Unique name for the step.
+- **Location** : Path of the TRC file to be read.
+
 Usage
 -----
 Configure the step with the file path of the TRC file to be read. On
 execution, the step will output the data of the TRC file in a dict. 
 Can be output to TRC Frame Selector Step to select a specific frame.
-
-Configuration
--------------
-- **identifier** : Unique name for the step.
-- **Location** : Path of the TRC file to be read.
 
