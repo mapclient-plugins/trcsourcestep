@@ -56,10 +56,13 @@ class TRCData(dict):
                             labels.append(label)
 
                     self['Labels'] = labels
-                elif line_count == 6:
+                elif line_count == 6 and len(line) == 0:
                     # Blank line
                     header_read_successfully = True
                 else:
+                    # Some files don't have a blank line at line six
+                    if line_count == 6:
+                        header_read_successfully = True
                     # Data section
                     if header_read_successfully:
                         sections = line.split('\t')

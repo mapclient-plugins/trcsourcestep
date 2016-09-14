@@ -9,14 +9,11 @@ DEFAULT_STYLE_SHEET = ''
 
 
 class ConfigureDialog(QtGui.QDialog):
-    '''
+    """
     Configure dialog to present the user with the options to configure this step.
-    '''
+    """
 
     def __init__(self, parent=None):
-        '''
-        Constructor
-        '''
         QtGui.QDialog.__init__(self, parent)
 
         self._ui = Ui_ConfigureDialog()
@@ -32,8 +29,6 @@ class ConfigureDialog(QtGui.QDialog):
         # We will use this method to decide whether the identifier is unique.
         self.identifierOccursCount = None
 
-        self._location = None
-
         self._previousLocation = ''
 
         self._makeConnections()
@@ -47,10 +42,10 @@ class ConfigureDialog(QtGui.QDialog):
         self._workflow_location = location
 
     def accept(self):
-        '''
+        """
         Override the accept method so that we can confirm saving an
         invalid configuration.
-        '''
+        """
         result = QtGui.QMessageBox.Yes
         if not self.validate():
             result = QtGui.QMessageBox.warning(self, 'Invalid Configuration',
@@ -61,11 +56,11 @@ class ConfigureDialog(QtGui.QDialog):
             QtGui.QDialog.accept(self)
 
     def validate(self):
-        '''
+        """
         Validate the configuration dialog fields.  For any field that is not valid_identifier
         set the style sheet to the INVALID_STYLE_SHEET.  Return the outcome of the 
         overall validity of the configuration.
-        '''
+        """
         # Determine if the current identifier is unique throughout the workflow
         # The identifierOccursCount method is part of the interface to the workflow framework.
         value = self.identifierOccursCount(self._ui.idLineEdit.text())
@@ -81,11 +76,11 @@ class ConfigureDialog(QtGui.QDialog):
         return valid_identifier and valid_location
 
     def getConfig(self):
-        '''
+        """
         Get the current value of the configuration from the dialog.  Also
         set the _previousIdentifier value so that we can check uniqueness of the
         identifier over the whole of the workflow.
-        '''
+        """
         self._previousIdentifier = self._ui.idLineEdit.text()
         self._previousLocation = self._ui.locLineEdit.text()
         config = {}
@@ -94,18 +89,15 @@ class ConfigureDialog(QtGui.QDialog):
         return config
 
     def setConfig(self, config):
-        '''
+        """
         Set the current value of the configuration for the dialog.  Also
         set the _previousIdentifier value so that we can check uniqueness of the
         identifier over the whole of the workflow.
-        '''
+        """
         self._previousIdentifier = config['identifier']
         self._previousLocation = config['Location']
         self._ui.idLineEdit.setText(config['identifier'])
         self._ui.locLineEdit.setText(config['Location'])
-
-    def setWorkflowLocation(self, location):
-        self._location = location
 
     def _locClicked(self):
         location, _ = QtGui.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
