@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import sys, os
 
 setup(name=u'mapclientplugins.trcsourcestep',
-      version='0.0',
+      version='1.0.0',
       description='',
       long_description="",
       classifiers=[],
