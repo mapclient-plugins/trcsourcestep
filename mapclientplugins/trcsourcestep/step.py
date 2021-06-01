@@ -3,7 +3,7 @@ import os.path
 import json
 import os.path
 
-from PySide import QtGui
+from PySide2 import QtGui
 
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.trcsourcestep.configuredialog import ConfigureDialog
