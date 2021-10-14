@@ -37,26 +37,16 @@ class Ui_ConfigureDialog(object):
         self.horizontalLayout.addWidget(self.locButton)
 
 
-        self.gridLayout_2.addLayout(self.horizontalLayout, 1, 1, 1, 1)
+        self.gridLayout_2.addLayout(self.horizontalLayout, 0, 1, 1, 1)
 
-        self.idLineEdit = QLineEdit(self.configGroupBox)
-        self.idLineEdit.setObjectName(u"idLineEdit")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.gridLayout_2.addWidget(self.idLineEdit, 0, 1, 1, 1)
+        self.gridLayout_2.addItem(self.verticalSpacer, 1, 1, 1, 1)
 
         self.locLabel = QLabel(self.configGroupBox)
         self.locLabel.setObjectName(u"locLabel")
 
-        self.gridLayout_2.addWidget(self.locLabel, 1, 0, 1, 1)
-
-        self.idLabel = QLabel(self.configGroupBox)
-        self.idLabel.setObjectName(u"idLabel")
-
-        self.gridLayout_2.addWidget(self.idLabel, 0, 0, 1, 1)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.gridLayout_2.addItem(self.verticalSpacer, 2, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.locLabel, 0, 0, 1, 1)
 
 
         self.gridLayout.addWidget(self.configGroupBox, 0, 0, 1, 1)
@@ -68,7 +58,6 @@ class Ui_ConfigureDialog(object):
 
         self.gridLayout.addWidget(self.buttonBox, 1, 0, 1, 1)
 
-        QWidget.setTabOrder(self.idLineEdit, self.locLineEdit)
         QWidget.setTabOrder(self.locLineEdit, self.locButton)
         QWidget.setTabOrder(self.locButton, self.buttonBox)
 
@@ -84,6 +73,5 @@ class Ui_ConfigureDialog(object):
         self.configGroupBox.setTitle("")
         self.locButton.setText(QCoreApplication.translate("ConfigureDialog", u"...", None))
         self.locLabel.setText(QCoreApplication.translate("ConfigureDialog", u"Location:  ", None))
-        self.idLabel.setText(QCoreApplication.translate("ConfigureDialog", u"identifier:  ", None))
     # retranslateUi
 

@@ -23,8 +23,9 @@ class TRCSourceStep(WorkflowStepMountPoint):
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#provides',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#trcdata'))
         self._config = {}
-        self._config['identifier'] = ''
         self._config['Location'] = ''
+
+        self._identifier = ''
 
         self._data = None  # TRCData()
 
@@ -58,7 +59,6 @@ class TRCSourceStep(WorkflowStepMountPoint):
         """
         dlg = ConfigureDialog(self._main_window)
         dlg.setWorkflowLocation(self._location)
-        dlg.identifierOccursCount = self._identifierOccursCount
         dlg.setConfig(self._config)
         dlg.validate()
         dlg.setModal(True)
@@ -73,13 +73,13 @@ class TRCSourceStep(WorkflowStepMountPoint):
         """
         The identifier is a string that must be unique within a workflow.
         """
-        return self._config['identifier']
+        return self._identifier
 
     def setIdentifier(self, identifier):
         """
         The framework will set the identifier for this step when it is loaded.
         """
-        self._config['identifier'] = identifier
+        self._identifier = identifier
 
     def serialize(self):
         """
@@ -90,7 +90,6 @@ class TRCSourceStep(WorkflowStepMountPoint):
             filename = getIdentifier() + '.conf'
         """
         return json.dumps(self._config, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-
 
     def deserialize(self, string):
         """
@@ -103,6 +102,5 @@ class TRCSourceStep(WorkflowStepMountPoint):
 
         d = ConfigureDialog(self._main_window)
         d.setWorkflowLocation(self._location)
-        d.identifierOccursCount = self._identifierOccursCount
         d.setConfig(self._config)
         self._configured = d.validate()

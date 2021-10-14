@@ -20,7 +20,7 @@
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="1">
+      <item row="0" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLineEdit" name="locLineEdit"/>
@@ -34,24 +34,7 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="idLineEdit"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="locLabel">
-        <property name="text">
-         <string>Location:  </string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="idLabel">
-        <property name="text">
-         <string>identifier:  </string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
+      <item row="1" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -63,6 +46,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="locLabel">
+        <property name="text">
+         <string>Location:  </string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -80,7 +70,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>idLineEdit</tabstop>
   <tabstop>locLineEdit</tabstop>
   <tabstop>locButton</tabstop>
   <tabstop>buttonBox</tabstop>

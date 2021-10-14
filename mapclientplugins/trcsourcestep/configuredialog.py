@@ -21,20 +21,11 @@ class ConfigureDialog(QtWidgets.QDialog):
 
         self._workflow_location = None
 
-        # Keep track of the previous identifier so that we can track changes
-        # and know how many occurrences of the current identifier there should
-        # be.
-        self._previousIdentifier = ''
-        # Set a place holder for a callable that will get set from the step.
-        # We will use this method to decide whether the identifier is unique.
-        self.identifierOccursCount = None
-
         self._previousLocation = ''
 
         self._makeConnections()
 
     def _makeConnections(self):
-        self._ui.idLineEdit.textChanged.connect(self.validate)
         self._ui.locLineEdit.textChanged.connect(self.validate)
         self._ui.locButton.clicked.connect(self._locClicked)
 
@@ -61,42 +52,25 @@ class ConfigureDialog(QtWidgets.QDialog):
         set the style sheet to the INVALID_STYLE_SHEET.  Return the outcome of the 
         overall validity of the configuration.
         """
-        # Determine if the current identifier is unique throughout the workflow
-        # The identifierOccursCount method is part of the interface to the workflow framework.
-        value = self.identifierOccursCount(self._ui.idLineEdit.text())
-        valid_identifier = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.idLineEdit.text())
-        self._ui.idLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET if valid_identifier else INVALID_STYLE_SHEET)
-
-        # enable configs to be saved as long as id is valid
-        # self._ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(valid_identifier)
-
         valid_location = os.path.isfile(os.path.join(self._workflow_location, self._ui.locLineEdit.text()))
         self._ui.locLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET if valid_location else INVALID_STYLE_SHEET)
 
-        return valid_identifier and valid_location
+        return valid_location
 
     def getConfig(self):
         """
-        Get the current value of the configuration from the dialog.  Also
-        set the _previousIdentifier value so that we can check uniqueness of the
-        identifier over the whole of the workflow.
+        Get the current value of the configuration from the dialog.
         """
-        self._previousIdentifier = self._ui.idLineEdit.text()
         self._previousLocation = self._ui.locLineEdit.text()
         config = {}
-        config['identifier'] = self._ui.idLineEdit.text()
         config['Location'] = self._ui.locLineEdit.text()
         return config
 
     def setConfig(self, config):
         """
-        Set the current value of the configuration for the dialog.  Also
-        set the _previousIdentifier value so that we can check uniqueness of the
-        identifier over the whole of the workflow.
+        Set the current value of the configuration for the dialog.
         """
-        self._previousIdentifier = config['identifier']
         self._previousLocation = config['Location']
-        self._ui.idLineEdit.setText(config['identifier'])
         self._ui.locLineEdit.setText(config['Location'])
 
     def _locClicked(self):
