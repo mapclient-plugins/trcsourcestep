@@ -52,7 +52,13 @@ class ConfigureDialog(QtWidgets.QDialog):
         set the style sheet to the INVALID_STYLE_SHEET.  Return the outcome of the 
         overall validity of the configuration.
         """
-        valid_location = os.path.isfile(os.path.join(self._workflow_location, self._ui.locLineEdit.text()))
+        output_directory = self._ui.locLineEdit.text()
+        non_empty = len(output_directory)
+        if not os.path.isabs(output_directory):
+            output_directory = os.path.join(self._workflow_location, output_directory)
+
+        valid_location = os.path.exists(output_directory) and non_empty
+
         self._ui.locLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET if valid_location else INVALID_STYLE_SHEET)
 
         return valid_location
@@ -77,4 +83,8 @@ class ConfigureDialog(QtWidgets.QDialog):
         location, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
         if location:
             self._previousLocation = location
-            self._ui.locLineEdit.setText(os.path.relpath(location, self._workflow_location))
+
+            if self._workflow_location:
+                self._ui.locLineEdit.setText(os.path.relpath(location, self._workflow_location))
+            else:
+                self._ui.locLineEdit.setText(location)

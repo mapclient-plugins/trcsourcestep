@@ -37,7 +37,12 @@ class TRCSourceStep(WorkflowStepMountPoint):
         """
         # Put your execute step code here before calling the '_doneExecution' method.
         self._data = TRCData()
-        self._data.load(os.path.join(self._location, self._config['Location']))
+        location = self._config['Location']
+        if not os.path.isabs(location):
+            location = os.path.join(self._location, location)
+
+        self._data.load(location)
+
         self._doneExecution()
 
     def getPortData(self, index):
