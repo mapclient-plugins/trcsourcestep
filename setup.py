@@ -1,5 +1,10 @@
 from setuptools import setup, find_packages
-import sys, os
+
+package_dependencies = [
+      "setuptools",
+      "PySide2",
+      "trc-data-reader"
+]
 
 setup(name=u'mapclientplugins.trcsourcestep',
       version='1.0.0',
@@ -14,7 +19,5 @@ setup(name=u'mapclientplugins.trcsourcestep',
       namespace_packages=['mapclientplugins'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          # -*- Extra requirements: -*-
-      ],
+      install_requires=package_dependencies,
       )

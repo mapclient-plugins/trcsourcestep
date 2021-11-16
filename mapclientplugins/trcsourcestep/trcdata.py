@@ -11,6 +11,11 @@ class TRCData(dict):
             for line in contents:
                 line_count += 1
                 line = line.strip()
+
+                if line == "":
+                    line_count -= 1
+                    continue
+
                 if line_count == 1:
                     # File Header 1
                     sections = line.split('\t')

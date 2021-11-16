@@ -66,11 +66,14 @@ class ConfigureDialog(QtWidgets.QDialog):
         value = self.identifierOccursCount(self._ui.idLineEdit.text())
         valid_identifier = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.idLineEdit.text())
         self._ui.idLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET if valid_identifier else INVALID_STYLE_SHEET)
+        self._ui.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(valid_identifier)
 
-        # enable configs to be saved as long as id is valid
-        # self._ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setEnabled(valid_identifier)
+        output_location = self._output_location()
+        if self._workflow_location:
+            output_location = os.path.join(self._workflow_location, output_location)
 
-        valid_location = os.path.isfile(os.path.join(self._workflow_location, self._ui.locLineEdit.text()))
+        # valid_location = os.path.isfile(os.path.join(self._workflow_location, self._ui.locLineEdit.text()))
+        valid_location = os.path.isfile(output_location)
         self._ui.locLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET if valid_location else INVALID_STYLE_SHEET)
 
         return valid_identifier and valid_location
@@ -103,4 +106,16 @@ class ConfigureDialog(QtWidgets.QDialog):
         location, _ = QtWidgets.QFileDialog.getOpenFileName(self, 'Select File Location', self._previousLocation)
         if location:
             self._previousLocation = location
-            self._ui.locLineEdit.setText(os.path.relpath(location, self._workflow_location))
+            # self._ui.locLineEdit.setText(os.path.relpath(location, self._workflow_location))
+            display_location = self._output_location(location)
+            self._ui.locLineEdit.setText(display_location)
+
+    def _output_location(self, location=None):
+        if location is None:
+            display_path = self._ui.locLineEdit.text()
+        else:
+            display_path = location
+        if self._workflow_location and os.path.isabs(display_path):
+            display_path = os.path.relpath(display_path, self._workflow_location)
+
+        return display_path
