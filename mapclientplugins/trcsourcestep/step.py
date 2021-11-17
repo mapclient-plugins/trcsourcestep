@@ -5,9 +5,10 @@ import os.path
 
 from PySide2 import QtGui
 
+from trc import TRCData
+
 from mapclient.mountpoints.workflowstep import WorkflowStepMountPoint
 from mapclientplugins.trcsourcestep.configuredialog import ConfigureDialog
-from mapclientplugins.trcsourcestep.trcdata import TRCData
 
 
 class TRCSourceStep(WorkflowStepMountPoint):
