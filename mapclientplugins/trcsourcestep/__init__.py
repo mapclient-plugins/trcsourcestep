@@ -1,5 +1,5 @@
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 __author__ = 'Hugh Sorby'
 __stepname__ = 'TRC Source'
 __location__ = 'https://github.com/mapclient-plugins/trcsourcestep/archive/v0.1.1.zip'
