@@ -33,7 +33,7 @@ readme = readfile("README.rst", split=True)[3:]
 source_license = readfile("LICENSE")
 
 package_dependencies = [
-    "PySide2",
+    "PySide6",
     "trc-data-reader >= 0.1.5"
 ]
 

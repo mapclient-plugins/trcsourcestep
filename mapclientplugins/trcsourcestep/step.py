@@ -3,7 +3,7 @@ import os.path
 import json
 import os.path
 
-from PySide2 import QtGui
+from PySide6 import QtGui
 
 from trc import TRCData
 
