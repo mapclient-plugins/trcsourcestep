@@ -46,13 +46,16 @@ class ConfigureDialog(QtWidgets.QDialog):
         Override the accept method so that we can confirm saving an
         invalid configuration.
         """
-        result = QtWidgets.QMessageBox.Yes
+        result = QtWidgets.QMessageBox.StandardButton.Yes
         if not self.validate():
             result = QtWidgets.QMessageBox.warning(self, 'Invalid Configuration',
-                'This configuration is invalid.  Unpredictable behaviour may result if you choose \'Yes\', are you sure you want to save this configuration?)',
-                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.No)
+                                                   'This configuration is invalid.  Unpredictable behaviour may result if you choose '
+                                                   '\'Yes\', are you sure you want to save this configuration?)',
+                                                   QtWidgets.QMessageBox.StandardButton(QtWidgets.QMessageBox.StandardButton.Yes |
+                                                                                        QtWidgets.QMessageBox.StandardButton.No),
+                                                   QtWidgets.QMessageBox.StandardButton.No)
 
-        if result == QtWidgets.QMessageBox.Yes:
+        if result == QtWidgets.QMessageBox.StandardButton.Yes:
             QtWidgets.QDialog.accept(self)
 
     def validate(self):
@@ -66,7 +69,7 @@ class ConfigureDialog(QtWidgets.QDialog):
         value = self.identifierOccursCount(self._ui.idLineEdit.text())
         valid_identifier = (value == 0) or (value == 1 and self._previousIdentifier == self._ui.idLineEdit.text())
         self._ui.idLineEdit.setStyleSheet(DEFAULT_STYLE_SHEET if valid_identifier else INVALID_STYLE_SHEET)
-        self._ui.buttonBox.button(QtWidgets.QDialogButtonBox.Ok).setEnabled(valid_identifier)
+        self._ui.buttonBox.button(QtWidgets.QDialogButtonBox.StandardButton.Ok).setEnabled(valid_identifier)
 
         output_location = self._output_location()
         if self._workflow_location:
@@ -86,9 +89,10 @@ class ConfigureDialog(QtWidgets.QDialog):
         """
         self._previousIdentifier = self._ui.idLineEdit.text()
         self._previousLocation = self._ui.locLineEdit.text()
-        config = {}
-        config['identifier'] = self._ui.idLineEdit.text()
-        config['Location'] = self._ui.locLineEdit.text()
+        config = {
+            'identifier': self._ui.idLineEdit.text(),
+            'Location': self._ui.locLineEdit.text()
+        }
         return config
 
     def setConfig(self, config):

@@ -23,9 +23,10 @@ class TRCSourceStep(WorkflowStepMountPoint):
         self.addPort(('http://physiomeproject.org/workflow/1.0/rdf-schema#port',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#provides',
                       'http://physiomeproject.org/workflow/1.0/rdf-schema#trcdata'))
-        self._config = {}
-        self._config['identifier'] = ''
-        self._config['Location'] = ''
+        self._config = {
+            'identifier': '',
+            'Location': ''
+        }
 
         self._data = None  # TRCData()
 
@@ -91,7 +92,6 @@ class TRCSourceStep(WorkflowStepMountPoint):
             filename = getIdentifier() + '.conf'
         """
         return json.dumps(self._config, default=lambda o: o.__dict__, sort_keys=True, indent=4)
-
 
     def deserialize(self, string):
         """
